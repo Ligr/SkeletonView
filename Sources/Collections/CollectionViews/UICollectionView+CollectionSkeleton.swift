@@ -39,13 +39,19 @@ extension UICollectionView: CollectionSkeleton {
         let dataSource = SkeletonCollectionDataSource(collectionViewDataSource: originalDataSource)
         self.skeletonDataSource = dataSource
         reloadData()
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
     func removeDummyDataSource(reloadAfter: Bool) {
         guard let dataSource = self.dataSource as? SkeletonCollectionDataSource else { return }
         self.skeletonDataSource = nil
         self.dataSource = dataSource.originalCollectionViewDataSource
-        if reloadAfter { self.reloadData() }
+        if reloadAfter {
+            self.reloadData()
+            self.setNeedsLayout()
+            self.layoutIfNeeded()
+        }
     }
 }
 

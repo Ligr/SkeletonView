@@ -37,6 +37,8 @@ extension UITableView: CollectionSkeleton {
         let dataSource = SkeletonCollectionDataSource(tableViewDataSource: originalDataSource, rowHeight: calculateRowHeight())
         self.skeletonDataSource = dataSource
         reloadData()
+        setNeedsLayout()
+        layoutIfNeeded()
     }
     
     func removeDummyDataSource(reloadAfter: Bool) {
@@ -44,7 +46,11 @@ extension UITableView: CollectionSkeleton {
         restoreRowHeight()
         self.skeletonDataSource = nil
         self.dataSource = dataSource.originalTableViewDataSource
-        if reloadAfter { self.reloadData() }
+        if reloadAfter {
+            self.reloadData()
+            self.setNeedsLayout()
+            self.layoutIfNeeded()
+        }
     }
 
     private func restoreRowHeight() {
